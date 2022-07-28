@@ -1,7 +1,7 @@
 const axios = require("axios");
 var express = require('express');
 var app = express();
-var PORT = 80;
+var PORT = process.env.PORT || 5000;;
 
 // View engine setup
 app.set('view engine', 'ejs');
