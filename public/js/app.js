@@ -1,5 +1,4 @@
 import { getColorType } from "./pokemon-type-colours.js";
-console.log(getColorType("poison"));
 
 //Variables para filtrar la navegacion
 let limitPokemons = 10;
@@ -77,7 +76,6 @@ const logicaBotones = (id) => {
 }
 
 const llenarCard = async (pokemon) => {
-    console.log(pokemon);
     const pokeData = await getPokemon(pokemon.url.toLowerCase());
     let templateTypes = "";
     let html = '';
@@ -87,7 +85,6 @@ const llenarCard = async (pokemon) => {
         <p>${tipoPokemon.toUpperCase()}</p>
         </div>`
     })
-    console.log(pokeData)
     html = `
     <div class="card animate__animated animate__fadeInLeft" style="background:${getColorType(pokeData.types[0].type.name)}">
     <div class="img-card">
@@ -149,13 +146,15 @@ btnSearch.addEventListener('click', async () => {
             pokemon.url = "https://pokeapi.co/api/v2/type/" + search;
             let data = await getPokemon(pokemon.url);
             let pokemons = data.pokemon;
-            pokemons.forEach(poke => 
-                llenarCard(poke.pokemon)
+            pokemons.forEach(async poke => 
+                await llenarCard(poke.pokemon)
             )
-            if (masContainer.classList.contains("hidden")) masContainer.classList.remove("hidden");
+            if (!masContainer.classList.contains("hidden")) {
+                masContainer.classList.add("hidden");
+            }
         }
         else {
-            llenarCard(pokemon);
+            await llenarCard(pokemon);
             if (!masContainer.classList.contains("hidden")) {
                 masContainer.classList.add("hidden");
             }
